@@ -7,7 +7,7 @@ export default function Field({ label, error, hint, children }) {
       {error ? (
         <span className="field-error">{error}</span>
       ) : (
-        hint && <span className="mt-1 block text-xs text-slate-500">{hint}</span>
+        hint && <span className="mt-1 block text-xs text-muted">{hint}</span>
       )}
     </label>
   );
