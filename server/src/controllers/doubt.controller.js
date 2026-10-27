@@ -6,8 +6,8 @@ const SORTS = {
   new: { createdAt: -1, _id: -1 },
 };
 
-const PEOPLE = [
-  { path: 'author', select: 'name role' },
+export const PEOPLE = [
+  { path: 'author', select: 'name' },
   { path: 'claimedBy', select: 'name' },
 ];
 

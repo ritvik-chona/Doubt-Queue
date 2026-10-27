@@ -27,7 +27,7 @@ router.use(auth);
 
 router.get('/', listCourses);
 router.post('/', requireRole('ta'), validate(createCourseSchema), createCourse);
-router.post('/join', requireRole('student'), validate(joinCourseSchema), joinCourse);
+router.post('/join', validate(joinCourseSchema), joinCourse);
 router.get('/:id', requireEnrolled, getCourse);
 
 export default router;
