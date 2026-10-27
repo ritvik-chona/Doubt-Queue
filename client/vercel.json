@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://RENDER_URL_PLACEHOLDER/api/:path*" },
+    { "source": "/api/:path*", "destination": "https://doubt-queue-p7v7.onrender.com/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
