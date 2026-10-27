@@ -1,7 +1,35 @@
 # Doubt Queue
 
-> **Live app:** LIVE_URL_PLACEHOLDER
+> **Live app:** https://doubt-queue.vercel.app
+> **API:** https://doubt-queue-p7v7.onrender.com/api/health
 > **Demo video:** DEMO_VIDEO_URL_PLACEHOLDER
+
+## Demo Accounts
+
+All demo accounts use the password **`DoubtQueue@2026`**. They share one seeded course, **Data Structures and Algorithms (CS201)**.
+
+| Name | Email | Role |
+|---|---|---|
+| Priya Sharma | `priya.sharma@example.com` | TA, course owner (sees the join code) |
+| Rahul Verma | `rahul.verma@example.com` | TA, co-TA |
+| Ananya Iyer | `ananya.iyer@example.com` | Student |
+| Arjun Mehta | `arjun.mehta@example.com` | Student |
+| Sneha Reddy | `sneha.reddy@example.com` | Student |
+
+The course already contains doubts in every state:
+- **Resolved:** the quicksort doubt (by Priya) and the BFS doubt (by Rahul).
+- **Claimed, no answer yet:** the Dijkstra doubt (Rahul).
+- **Claimed, answered but not resolved:** the AVL doubt (Priya).
+- **Reopened by its author:** the heap doubt (Sneha), with Priya's answer kept.
+- **Open:** a few doubts with upvotes.
+
+Suggested walkthrough:
+1. Log in as **Arjun** and start asking *"quicksort worst case"* to see duplicate suggestions.
+2. Log in as **Rahul**, then try to claim the AVL doubt to get *"Already claimed by Priya Sharma"*.
+3. Log in as **Priya** and resolve the AVL doubt.
+4. Log in as **Ananya** and reopen her resolved quicksort doubt.
+
+The first request after the API has been idle can take up to a minute (Render free tier cold start). Anyone with these credentials can change the demo data.
 
 ## Problem Statement
 
