@@ -1,8 +1,10 @@
 import { HttpError } from './errorHandler.js';
 
-// Parses req.body with a Zod schema; replaces it with the cleaned data or responds 400.
-export const validate = (schema) => (req, res, next) => {
-  const result = schema.safeParse(req.body ?? {});
+// Parses req.body (or req.query) with a Zod schema and responds 400 on failure.
+// Cleaned body replaces req.body; cleaned query goes on req.validatedQuery
+// because req.query is read-only in Express 5.
+export const validate = (schema, source = 'body') => (req, res, next) => {
+  const result = schema.safeParse(req[source] ?? {});
   if (!result.success) {
     const details = result.error.issues.map((issue) => ({
       field: issue.path.join('.'),
@@ -10,6 +12,7 @@ export const validate = (schema) => (req, res, next) => {
     }));
     return next(new HttpError(400, 'Validation failed', details));
   }
-  req.body = result.data;
+  if (source === 'query') req.validatedQuery = result.data;
+  else req.body = result.data;
   next();
 };
