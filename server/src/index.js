@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './config/db.js';
+import authRoutes from './routes/auth.routes.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
 const { MONGO_URI, JWT_SECRET, CLIENT_ORIGIN, PORT = 4000 } = process.env;
 
@@ -23,9 +25,13 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+app.use('/api/auth', authRoutes);
+
 app.use((req, res) => {
   res.status(404).json({ error: { message: 'Route not found' } });
 });
+
+app.use(errorHandler);
 
 connectDB(MONGO_URI)
   .then(() => {
