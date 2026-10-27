@@ -1,6 +1,11 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { createDoubt, listDoubts, toggleUpvote } from '../controllers/doubt.controller.js';
+import {
+  createDoubt,
+  listDoubts,
+  similarDoubts,
+  toggleUpvote,
+} from '../controllers/doubt.controller.js';
 import {
   getDoubt,
   claimDoubt,
@@ -34,6 +39,14 @@ const listDoubtsSchema = z.object({
   limit: z.coerce.number().int().min(1).max(50).default(20),
 });
 
+const similarSchema = z.object({
+  q: z
+    .string({ error: 'q is required' })
+    .trim()
+    .min(8, 'Type at least 8 characters to see similar doubts')
+    .max(150),
+});
+
 const answerSchema = z.object({
   body: z.string().trim().min(1, 'Answer cannot be empty').max(5000),
 });
@@ -42,6 +55,7 @@ const answerSchema = z.object({
 export const courseDoubtRouter = Router({ mergeParams: true });
 courseDoubtRouter.use(auth, requireEnrolled);
 courseDoubtRouter.get('/', validate(listDoubtsSchema, 'query'), listDoubts);
+courseDoubtRouter.get('/similar', validate(similarSchema, 'query'), similarDoubts);
 courseDoubtRouter.post('/', validate(createDoubtSchema), createDoubt);
 
 // Mounted at /api/doubts. Role checks run before loadDoubt so a wrong-role

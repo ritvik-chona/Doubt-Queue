@@ -1,5 +1,10 @@
 import Doubt from '../models/Doubt.js';
 import { HttpError } from '../middleware/errorHandler.js';
+import { rankSimilar } from '../services/similarity.js';
+
+const SIMILAR_CANDIDATES = 200;
+const SIMILAR_LIMIT = 5;
+const SIMILAR_THRESHOLD = 0.25;
 
 const SORTS = {
   votes: { upvoteCount: -1, createdAt: -1, _id: -1 },
@@ -53,6 +58,33 @@ export async function listDoubts(req, res) {
     limit,
     total,
     totalPages: Math.ceil(total / limit),
+  });
+}
+
+// Live duplicate suggestions while a student types a title. Ranks recent doubts
+// in memory instead of using $text, which only matches whole (stemmed) words.
+export async function similarDoubts(req, res) {
+  const { q } = req.validatedQuery;
+
+  const candidates = await Doubt.find({ course: req.course._id })
+    .sort({ createdAt: -1 })
+    .limit(SIMILAR_CANDIDATES)
+    .select('title body status upvoteCount')
+    .lean();
+
+  const matches = rankSimilar(q, candidates, {
+    limit: SIMILAR_LIMIT,
+    threshold: SIMILAR_THRESHOLD,
+  });
+
+  res.json({
+    similar: matches.map(({ doubt, score }) => ({
+      _id: doubt._id,
+      title: doubt.title,
+      status: doubt.status,
+      upvoteCount: doubt.upvoteCount,
+      score: Math.round(score * 100) / 100,
+    })),
   });
 }
 
