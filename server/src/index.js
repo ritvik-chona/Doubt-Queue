@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
+import courseRoutes from './routes/course.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 const { MONGO_URI, JWT_SECRET, CLIENT_ORIGIN, PORT = 4000 } = process.env;
@@ -26,6 +27,7 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ error: { message: 'Route not found' } });
