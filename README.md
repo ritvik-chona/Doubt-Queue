@@ -2,7 +2,7 @@
 
 > **Live app:** https://doubt-queue.vercel.app
 > **API:** https://doubt-queue-p7v7.onrender.com/api/health
-> **Demo video:** DEMO_VIDEO_URL_PLACEHOLDER
+> **Demo video:** [demo/doubt-queue-demo.mp4](demo/doubt-queue-demo.mp4) (3:40, captions burned in; subtitles in [demo/doubt-queue-demo.srt](demo/doubt-queue-demo.srt))
 
 ## Demo Accounts
 

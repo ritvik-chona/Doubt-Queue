@@ -8,3 +8,4 @@ coverage/
 .DS_Store
 .vscode/
 .playwright-mcp/
+demo/tools/

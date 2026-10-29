@@ -1,0 +1,123 @@
+1
+00:00:01,162 --> 00:00:05,993
+A full walkthrough of all four workflows, start to finish.
+
+2
+00:00:05,993 --> 00:00:11,913
+[Welcome] The sign-in screen. The live background reacts to the cursor, and the preview shows the product working.
+
+3
+00:00:11,913 --> 00:00:27,605
+[Workflow 1 · Auth and enrollment] Register as a TA. Submitting an empty form shows the server’s Zod validation, field by field.
+
+4
+00:00:27,605 --> 00:00:30,674
+[Workflow 1 · Auth and enrollment] Passwords are hashed with bcrypt. The session is a JWT in an httpOnly cookie.
+
+5
+00:00:30,674 --> 00:00:38,029
+[Workflow 1 · Auth and enrollment] Meera has no courses yet. As a TA she can create one.
+
+6
+00:00:38,029 --> 00:00:42,650
+[Workflow 1 · Auth and enrollment] The course gets a unique 6-character join code. It retries automatically if a code ever collides.
+
+7
+00:00:42,650 --> 00:00:54,044
+[Meanwhile…] A co-TA and three classmates join with the code and start posting doubts.
+
+8
+00:00:54,044 --> 00:00:58,733
+[Workflow 1 · Auth and enrollment] Refreshing shows 4 members now. Only the owner sees the member count and the join code.
+
+9
+00:00:58,733 --> 00:01:10,080
+[Workflow 1 · Auth and enrollment] Now a student, Kabir, signs up and joins the course.
+
+10
+00:01:10,080 --> 00:01:16,815
+[Workflow 1 · Auth and enrollment] A wrong join code gets a clear 404 message…
+
+11
+00:01:16,815 --> 00:01:22,327
+[Workflow 1 · Auth and enrollment] …and the right one enrolls him. Joining is a single atomic update, so it can never add him twice.
+
+12
+00:01:22,327 --> 00:01:26,458
+[Workflow 3 · Browse, search, filter, upvote] The course queue, sorted by votes. It refreshes every 15 seconds while the tab is visible.
+
+13
+00:01:26,458 --> 00:01:33,145
+[Workflow 3 · Browse, search, filter, upvote] Search uses a MongoDB text index, debounced while typing.
+
+14
+00:01:33,145 --> 00:01:35,703
+[Workflow 3 · Browse, search, filter, upvote] Filter by status…
+
+15
+00:01:35,703 --> 00:01:40,810
+[Workflow 3 · Browse, search, filter, upvote] …or sort by newest.
+
+16
+00:01:40,810 --> 00:01:48,538
+[Workflow 3 · Browse, search, filter, upvote] One upvote per user, as a toggle. The count updates instantly, then confirms with the server.
+
+17
+00:01:48,538 --> 00:01:56,392
+[Workflow 2 · Duplicate detection] Kabir asks a doubt. As he types the title, similar doubts appear.
+
+18
+00:01:56,392 --> 00:02:02,614
+[Workflow 2 · Duplicate detection] Matches are ranked by word overlap (Jaccard) plus character-trigram similarity, so near-matches still count.
+
+19
+00:02:02,614 --> 00:02:20,542
+[Workflow 2 · Duplicate detection] It never blocks posting. His question is about a different case, so he posts anyway.
+
+20
+00:02:20,542 --> 00:02:25,731
+[Workflow 2 · Duplicate detection] The doubt is open. Authors can’t upvote their own doubt, and only allowed actions are shown.
+
+21
+00:02:25,731 --> 00:02:37,117
+[Workflow 4 · TA resolution flow] Back to Meera, the TA.
+
+22
+00:02:37,117 --> 00:02:42,192
+[Workflow 4 · TA resolution flow] Two TAs can’t claim the same doubt. Watch: co-TA Rahul claims this one a moment before Meera does.
+
+23
+00:02:42,192 --> 00:02:47,360
+[Workflow 4 · TA resolution flow] Her claim gets a 409: “Already claimed by Rahul Verma”. Claiming is one atomic findOneAndUpdate on status “open”.
+
+24
+00:02:47,360 --> 00:02:50,413
+[Workflow 4 · TA resolution flow] She claims Kabir’s doubt instead. The buttons come from permissions computed on the server.
+
+25
+00:02:50,413 --> 00:03:03,344
+[Workflow 4 · TA resolution flow] Resolving needs at least one answer, so she writes one.
+
+26
+00:03:03,344 --> 00:03:14,886
+[Workflow 4 · TA resolution flow] Resolved. The final answer is highlighted as accepted.
+
+27
+00:03:14,886 --> 00:03:20,217
+[Workflow 4 · TA resolution flow] Only the author can reopen. Kabir still has a question, so he reopens it.
+
+28
+00:03:20,217 --> 00:03:24,086
+[Workflow 4 · TA resolution flow] It goes back to open, with the answer kept. The status machine: open → claimed → resolved → open.
+
+29
+00:03:24,086 --> 00:03:32,273
+[Details] Unknown routes get a friendly 404 page.
+
+30
+00:03:32,273 --> 00:03:37,489
+Real output from the test suite and the race script.
+
+31
+00:03:37,489 --> 00:03:40,098
+Thanks for watching!
